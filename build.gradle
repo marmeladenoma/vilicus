@@ -4,7 +4,7 @@ plugins {
 
 subprojects {
   group "de.marmeladenoma"
-  version "0.0.1-SNAPSHOT"
+  version "0.1.0"
 
   apply plugin: 'java'
   apply plugin: 'maven-publish'
