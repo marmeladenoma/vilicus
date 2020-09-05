@@ -1,1 +1,4 @@
 rootProject.name = 'vilicus'
+
+include 'vilicius-spigot'
+

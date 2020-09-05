@@ -9,6 +9,11 @@ subprojects {
   sourceCompatibility = 14
   targetCompatibility = 14
 
+  repositories {
+    mavenLocal()
+    mavenCentral()
+  }
+
   java {
     withJavadocJar()
     withSourcesJar()
