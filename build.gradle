@@ -1,4 +1,8 @@
 plugins {
-    id 'java'
+  id 'java'
 }
 
+subprojects {
+  group "de.marmeladenoma"
+  version "0.0.1-SNAPSHOT"
+}
