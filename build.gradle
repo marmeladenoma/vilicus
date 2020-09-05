@@ -4,9 +4,10 @@ plugins {
 
 subprojects {
   group "de.marmeladenoma"
-  version "0.2.0"
+  version "0.3.0"
 
   apply plugin: 'java'
+  apply plugin: 'maven'
   apply plugin: 'maven-publish'
 
   sourceCompatibility = 14
@@ -26,7 +27,7 @@ subprojects {
     repositories {
       maven {
         name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/marmeladenoma")
+        url = uri("https://maven.pkg.github.com/marmeladenoma/vilicus")
         credentials {
           username = System.getenv("GITHUB_ACTOR")
           password = System.getenv("GITHUB_TOKEN")
