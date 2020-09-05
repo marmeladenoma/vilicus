@@ -6,6 +6,9 @@ subprojects {
   group "de.marmeladenoma"
   version "0.0.1-SNAPSHOT"
 
+  sourceCompatibility = 14
+  targetCompatibility = 14
+
   java {
     withJavadocJar()
     withSourcesJar()
