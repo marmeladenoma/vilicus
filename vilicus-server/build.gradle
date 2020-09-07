@@ -3,12 +3,22 @@ plugins {
   id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
 
+repositories {
+  maven {
+    url = uri("https://maven.pkg.github.com/marmeladenoma/susceptor")
+    credentials {
+      username = System.getenv("GITHUB_ACTOR")
+      password = System.getenv("GITHUB_TOKEN")
+    }
+  }
+}
+
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
   testImplementation('org.springframework.boot:spring-boot-starter-test') {
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
-  compile 'dev.morphia.morphia:morphia-core:2.0.0-RC1'
+  implementation 'de.marmeladenoma:susceptor-persistence:0.2.1'
 }
 
 test {
