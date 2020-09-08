@@ -1,16 +1,15 @@
-package de.marmeladenoma.vilicus.entity;
+package de.marmeladenoma.vilicus.phase;
 
 import de.marmeladenoma.vilicus.PunishmentType;
 import de.marmeladenoma.vilicus.reason.PunishmentReason;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Reference;
-import org.bson.types.ObjectId;
 
 @Entity("phases")
 public class PunishmentPhase {
   @Id
-  private ObjectId id;
+  private String objectId;
 
   private Integer typeOrdinal;
 
@@ -19,8 +18,8 @@ public class PunishmentPhase {
   @Reference
   private PunishmentReason reason;
 
-  public ObjectId getId() {
-    return id;
+  public String getObjectId() {
+    return objectId;
   }
 
   public PunishmentType getType() {

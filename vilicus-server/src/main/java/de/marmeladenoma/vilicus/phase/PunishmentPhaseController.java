@@ -1,6 +1,5 @@
-package de.marmeladenoma.vilicus.entity;
+package de.marmeladenoma.vilicus.phase;
 
-import de.marmeladenoma.vilicus.entry.PunishmentEntry;
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,22 +8,22 @@ import java.util.List;
 @RestController
 public class PunishmentPhaseController {
   @GetMapping("/phases")
-  List<PunishmentEntry> allPhases() {
+  List<PunishmentPhase> allPhases() {
     throw new UnsupportedOperationException();
   }
 
   @PostMapping("/phases")
-  PunishmentEntry newPhase() {
+  PunishmentPhase newPhase() {
     throw new UnsupportedOperationException();
   }
 
   @GetMapping("/phases/{id}")
-  PunishmentEntry findPhase(@PathVariable ObjectId id) {
+  PunishmentPhase findPhase(@PathVariable ObjectId id) {
     throw new UnsupportedOperationException();
   }
 
   @PutMapping("/phases/{id}")
-  PunishmentEntry replacePhase(@PathVariable ObjectId id, @RequestBody PunishmentEntry newEntry) {
+  PunishmentPhase replacePhase(@PathVariable ObjectId id, @RequestBody PunishmentPhase newEntry) {
     throw new UnsupportedOperationException();
   }
 

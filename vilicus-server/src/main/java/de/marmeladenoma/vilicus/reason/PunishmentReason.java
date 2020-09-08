@@ -2,20 +2,32 @@ package de.marmeladenoma.vilicus.reason;
 
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
-import org.bson.types.ObjectId;
+import dev.morphia.annotations.IndexOptions;
+import dev.morphia.annotations.Indexed;
 
 @Entity("reasons")
 public class PunishmentReason {
   @Id
-  private ObjectId id;
+  private String objectId;
+
+  @Indexed(options = @IndexOptions(unique = true))
+  private Long reasonId;
 
   private String name;
 
-  public ObjectId getId() {
-    return id;
+  public String getObjectId() {
+    return objectId;
+  }
+
+  public Long getReasonId() {
+    return reasonId;
   }
 
   public String getName() {
     return name;
+  }
+
+  public void setReasonId(Long reasonId) {
+    this.reasonId = reasonId;
   }
 }

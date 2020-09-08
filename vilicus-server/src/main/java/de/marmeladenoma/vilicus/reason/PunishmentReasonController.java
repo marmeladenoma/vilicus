@@ -1,6 +1,8 @@
 package de.marmeladenoma.vilicus.reason;
 
-import de.marmeladenoma.vilicus.entry.PunishmentEntry;
+import de.marmeladenoma.vilicus.counter.Counter;
+import dev.morphia.Datastore;
+import dev.morphia.query.experimental.filters.Filters;
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,23 +10,33 @@ import java.util.List;
 
 @RestController
 public class PunishmentReasonController {
+
+  private Datastore datastore;
+
+  public PunishmentReasonController(Datastore datastore) {
+    this.datastore = datastore;
+  }
+
   @GetMapping("/reasons")
-  List<PunishmentEntry> allReasons() {
-    throw new UnsupportedOperationException();
+  List<PunishmentReason> allReasons() {
+    return datastore.find(PunishmentReason.class).iterator().toList();
   }
 
   @PostMapping("/reasons")
-  PunishmentEntry newReason() {
-    throw new UnsupportedOperationException();
+  PunishmentReason newReason(@RequestBody PunishmentReason newEntry) {
+    newEntry.setReasonId(Counter.next(datastore, "reason"));
+    return datastore.save(newEntry);
   }
 
   @GetMapping("/reasons/{id}")
-  PunishmentEntry findReason(@PathVariable ObjectId id) {
-    throw new UnsupportedOperationException();
+  PunishmentReason findReason(@PathVariable Long id) {
+    return datastore.find(PunishmentReason.class)
+      .filter(Filters.eq("id", id))
+      .first();
   }
 
   @PutMapping("/reasons/{id}")
-  PunishmentEntry replaceReason(@PathVariable ObjectId id, @RequestBody PunishmentEntry newEntry) {
+  PunishmentReason replaceReason(@PathVariable ObjectId id, @RequestBody PunishmentReason newReason) {
     throw new UnsupportedOperationException();
   }
 
