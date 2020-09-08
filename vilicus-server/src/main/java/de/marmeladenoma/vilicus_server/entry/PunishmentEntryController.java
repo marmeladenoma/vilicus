@@ -1,4 +1,4 @@
-package de.marmeladenoma.vilicus.entry;
+package de.marmeladenoma.vilicus_server.entry;
 
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;

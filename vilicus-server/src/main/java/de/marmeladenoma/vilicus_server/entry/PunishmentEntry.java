@@ -1,6 +1,6 @@
-package de.marmeladenoma.vilicus.entry;
+package de.marmeladenoma.vilicus_server.entry;
 
-import de.marmeladenoma.vilicus.phase.PunishmentPhase;
+import de.marmeladenoma.vilicus_server.phase.PunishmentPhase;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Reference;

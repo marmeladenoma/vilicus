@@ -1,4 +1,4 @@
-package de.marmeladenoma.vilicus.phase;
+package de.marmeladenoma.vilicus_server.phase;
 
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;

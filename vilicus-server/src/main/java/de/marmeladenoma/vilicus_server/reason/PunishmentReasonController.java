@@ -1,6 +1,6 @@
-package de.marmeladenoma.vilicus.reason;
+package de.marmeladenoma.vilicus_server.reason;
 
-import de.marmeladenoma.vilicus.counter.Counter;
+import de.marmeladenoma.vilicus_server.counter.Counter;
 import dev.morphia.Datastore;
 import dev.morphia.query.experimental.filters.Filters;
 import org.bson.types.ObjectId;

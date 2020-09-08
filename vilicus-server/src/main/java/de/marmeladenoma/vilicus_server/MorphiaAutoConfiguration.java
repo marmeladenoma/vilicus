@@ -1,4 +1,4 @@
-package de.marmeladenoma.vilicus;
+package de.marmeladenoma.vilicus_server;
 
 import dev.morphia.Datastore;
 import org.springframework.context.annotation.Bean;

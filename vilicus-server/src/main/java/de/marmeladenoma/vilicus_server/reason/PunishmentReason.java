@@ -1,4 +1,4 @@
-package de.marmeladenoma.vilicus.reason;
+package de.marmeladenoma.vilicus_server.reason;
 
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;

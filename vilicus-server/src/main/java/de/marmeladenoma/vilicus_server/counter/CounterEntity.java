@@ -1,4 +1,4 @@
-package de.marmeladenoma.vilicus.counter;
+package de.marmeladenoma.vilicus_server.counter;
 
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;

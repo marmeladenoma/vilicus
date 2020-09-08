@@ -1,4 +1,4 @@
-package de.marmeladenoma.vilicus.counter;
+package de.marmeladenoma.vilicus_server.counter;
 
 import dev.morphia.Datastore;
 import dev.morphia.query.experimental.filters.Filters;

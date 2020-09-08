@@ -1,4 +1,4 @@
-package de.marmeladenoma.vilicus;
+package de.marmeladenoma.vilicus_spigot;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

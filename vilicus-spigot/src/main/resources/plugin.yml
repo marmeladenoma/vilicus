@@ -1,6 +1,6 @@
 name: Vilicus
 version: 0.3.0
-main: de.marmeladenoma.vilicus.VilicusPlugin
+main: de.marmeladenoma.vilicus_spigot.VilicusPlugin
 description:
   Modern moderation and community management toolset featuring
   player activity tracking, penalties and chat support

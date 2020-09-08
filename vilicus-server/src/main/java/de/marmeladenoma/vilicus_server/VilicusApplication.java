@@ -1,10 +1,10 @@
-package de.marmeladenoma.vilicus;
+package de.marmeladenoma.vilicus_server;
 
 import com.google.inject.Guice;
 import de.marmeladenoma.susceptor.persistence.DatastoreFactory;
 import de.marmeladenoma.susceptor.persistence.inject.PersistenceConfig;
 import de.marmeladenoma.susceptor.persistence.inject.PersistenceModule;
-import de.marmeladenoma.vilicus.counter.Counter;
+import de.marmeladenoma.vilicus_server.counter.Counter;
 import dev.morphia.Datastore;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
