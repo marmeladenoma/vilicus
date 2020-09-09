@@ -3,12 +3,12 @@ package de.marmeladenoma.vilicus_server.entry;
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
-public class PunishmentEntryController {
+public final class PunishmentEntryController {
   @GetMapping("/entries")
-  List<PunishmentEntry> allEntries() {
+  Collection<PunishmentEntry> allEntries() {
     throw new UnsupportedOperationException();
   }
 
@@ -23,7 +23,10 @@ public class PunishmentEntryController {
   }
 
   @PutMapping("/entries/{id}")
-  PunishmentEntry replaceEntry(@PathVariable ObjectId id, @RequestBody PunishmentEntry newEntry) {
+  PunishmentEntry replaceEntry(
+    @RequestBody PunishmentEntry newEntry,
+    @PathVariable ObjectId id
+  ) {
     throw new UnsupportedOperationException();
   }
 

@@ -6,20 +6,18 @@ import dev.morphia.annotations.IndexOptions;
 import dev.morphia.annotations.Indexed;
 
 @Entity("reasons")
-public class PunishmentReason {
+public final class PunishmentReason {
   @Id
-  private String objectId;
-
+  private String id;
   @Indexed(options = @IndexOptions(unique = true))
-  private Long reasonId;
-
+  private long reasonId;
   private String name;
 
-  public String getObjectId() {
-    return objectId;
+  public String getId() {
+    return id;
   }
 
-  public Long getReasonId() {
+  public long getReasonId() {
     return reasonId;
   }
 
@@ -27,7 +25,7 @@ public class PunishmentReason {
     return name;
   }
 
-  public void setReasonId(Long reasonId) {
+  public void setReasonId(long reasonId) {
     this.reasonId = reasonId;
   }
 }

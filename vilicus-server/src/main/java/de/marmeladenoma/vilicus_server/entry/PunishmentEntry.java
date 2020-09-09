@@ -8,42 +8,34 @@ import dev.morphia.annotations.Reference;
 import java.util.Date;
 
 @Entity("entries")
-public class PunishmentEntry {
+public final class PunishmentEntry {
   @Id
-  private String objectId;
-
-  private String playerUuid;
-
-  private String playerIp;
-
+  private String id;
+  private String userId;
+  private String ip;
   private Date creationDate;
-
-  private String creatorUuid;
-
+  private String creatorId;
   @Reference
   private PunishmentPhase phase;
+  private boolean active;
 
-  public String getObjectId() {
-    return objectId;
+  public String getId() {
+    return id;
   }
 
-  public String getPlayerUuid() {
-    return playerUuid;
+  public String getUserId() {
+    return userId;
   }
 
-  public String getPlayerIp() {
-    return playerIp;
+  public String getIp() {
+    return ip;
   }
 
   public Date getCreationDate() {
     return creationDate;
   }
 
-  public String getCreatorUuid() {
-    return creatorUuid;
-  }
-
-  public PunishmentPhase getPhase() {
-    return phase;
+  public String getCreatorId() {
+    return creatorId;
   }
 }

@@ -4,21 +4,22 @@ import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 
 @Entity("counter")
-public class CounterEntity {
-
+public final class CounterEntity {
+  // This framework requires public constructors
   public CounterEntity() {}
+
+  private static final long DEFAULT_SEQUENCE = 0;
 
   public CounterEntity(String counter) {
     this.counter = counter;
-    this.seq = 0L;
+    this.sequence = DEFAULT_SEQUENCE;
   }
 
   @Id
   private String counter;
+  private long sequence;
 
-  private Long seq;
-
-  public Long getSeq() {
-    return seq;
+  public long getSequence() {
+    return sequence;
   }
 }

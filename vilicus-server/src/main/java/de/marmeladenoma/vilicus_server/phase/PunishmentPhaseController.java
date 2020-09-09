@@ -3,12 +3,12 @@ package de.marmeladenoma.vilicus_server.phase;
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
-public class PunishmentPhaseController {
+public final class PunishmentPhaseController {
   @GetMapping("/phases")
-  List<PunishmentPhase> allPhases() {
+  Collection<PunishmentPhase> allPhases() {
     throw new UnsupportedOperationException();
   }
 
@@ -23,7 +23,10 @@ public class PunishmentPhaseController {
   }
 
   @PutMapping("/phases/{id}")
-  PunishmentPhase replacePhase(@PathVariable ObjectId id, @RequestBody PunishmentPhase newEntry) {
+  PunishmentPhase replacePhase(
+    @RequestBody PunishmentPhase newEntry,
+    @PathVariable ObjectId id
+  ) {
     throw new UnsupportedOperationException();
   }
 

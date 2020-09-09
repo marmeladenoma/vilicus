@@ -1,32 +1,28 @@
 package de.marmeladenoma.vilicus_server.phase;
 
-import de.marmeladenoma.vilicus_server.PunishmentType;
 import de.marmeladenoma.vilicus_server.reason.PunishmentReason;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Reference;
 
 @Entity("phases")
-public class PunishmentPhase {
+public final class PunishmentPhase {
   @Id
-  private String objectId;
-
-  private Integer typeOrdinal;
-
-  private Integer duration;
-
+  private String id;
+  private int typeOrdinal;
+  private long duration;
   @Reference
   private PunishmentReason reason;
 
-  public String getObjectId() {
-    return objectId;
+  public String getId() {
+    return id;
   }
 
-  public PunishmentType getType() {
-    return PunishmentType.values()[typeOrdinal];
+  public int getTypeOrdinal() {
+    return typeOrdinal;
   }
 
-  public Integer getDuration() {
+  public long getDuration() {
     return duration;
   }
 
