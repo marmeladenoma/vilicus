@@ -7,9 +7,14 @@ import dev.morphia.annotations.Reference;
 
 @Entity("phases")
 public final class PunishmentPhase {
+  public static final String FIELD_ID = "_id";
+  public static final String FIELD_TYPE = "type";
+  public static final String FIELD_DURATION = "duration";
+  public static final String FIELD_REASON = "reason";
+
   @Id
   private String id;
-  private int typeOrdinal;
+  private byte type;
   private long duration;
   @Reference
   private PunishmentReason reason;
@@ -18,8 +23,8 @@ public final class PunishmentPhase {
     return id;
   }
 
-  public int getTypeOrdinal() {
-    return typeOrdinal;
+  public byte getType() {
+    return type;
   }
 
   public long getDuration() {

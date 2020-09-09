@@ -7,6 +7,10 @@ import dev.morphia.annotations.Indexed;
 
 @Entity("reasons")
 public final class PunishmentReason {
+  public static final String FIELD_ID = "_id";
+  public static final String FIELD_REASON_ID = "reasonId";
+  public static final String FIELD_NAME = "name";
+
   @Id
   private String id;
   @Indexed(options = @IndexOptions(unique = true))

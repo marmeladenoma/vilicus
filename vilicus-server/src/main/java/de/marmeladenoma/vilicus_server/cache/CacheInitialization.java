@@ -6,11 +6,14 @@ import de.marmeladenoma.susceptor.persistence.DatastoreFactory;
 import de.marmeladenoma.susceptor.persistence.inject.PersistenceConfig;
 import de.marmeladenoma.susceptor.persistence.inject.PersistenceModule;
 import de.marmeladenoma.vilicus_server.counter.Counter;
+import dev.morphia.Datastore;
 
 public final class CacheInitialization {
   public static CacheInitialization create() {
     return new CacheInitialization();
   }
+
+  private static Datastore datastore;
 
   private CacheInitialization() {}
 
@@ -20,12 +23,16 @@ public final class CacheInitialization {
     loadData(injector);
   }
 
+  public Datastore getDatastore() {
+    return datastore;
+  }
+
   private static final String DATABASE_NAME = "vilicus";
   private static final String COUNTER = "reason";
 
   private void loadData(Injector injector) {
     var datastoreFactory = injector.getInstance(DatastoreFactory.class);
-    var datastore = datastoreFactory.createDatastore(DATABASE_NAME);
+    datastore = datastoreFactory.createDatastore(DATABASE_NAME);
     Counter.loadCounter(datastore, COUNTER);
   }
 

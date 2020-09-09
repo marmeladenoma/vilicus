@@ -9,6 +9,14 @@ import java.util.Date;
 
 @Entity("entries")
 public final class PunishmentEntry {
+  public static final String FIELD_ID = "_id";
+  public static final String FIELD_USER_ID = "userId";
+  public static final String FIELD_IP = "ip";
+  public static final String FIELD_CREATION_DATE = "creationDate";
+  public static final String FIELD_CREATOR_ID = "creatorId";
+  public static final String FIELD_PHASE = "phase";
+  public static final String FIELD_DISABLED = "disabled";
+
   @Id
   private String id;
   private String userId;
@@ -17,7 +25,7 @@ public final class PunishmentEntry {
   private String creatorId;
   @Reference
   private PunishmentPhase phase;
-  private boolean active;
+  private boolean disabled;
 
   public String getId() {
     return id;
@@ -37,5 +45,13 @@ public final class PunishmentEntry {
 
   public String getCreatorId() {
     return creatorId;
+  }
+
+  public PunishmentPhase getPhase() {
+    return phase;
+  }
+
+  public boolean isDisabled() {
+    return disabled;
   }
 }
