@@ -7,13 +7,17 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MorphiaAutoConfiguration {
-
   private final Datastore datastore;
 
+  // Because of the @Configuration annotation
+  // this constructor needs to be public
   public MorphiaAutoConfiguration() {
+    this.datastore = createDatastore();
+  }
+
+  private Datastore createDatastore() {
     var cacheInitialization = CacheInitialization.create();
-    cacheInitialization.initialize();
-    this.datastore = cacheInitialization.getDatastore();
+    return cacheInitialization.initialize();
   }
 
   @Bean

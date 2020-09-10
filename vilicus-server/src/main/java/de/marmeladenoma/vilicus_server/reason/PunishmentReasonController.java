@@ -11,7 +11,6 @@ import java.util.Collection;
 
 @RestController
 public final class PunishmentReasonController {
-
   private final Datastore datastore;
   private final Counter counter;
 
@@ -19,8 +18,6 @@ public final class PunishmentReasonController {
     this.datastore = datastore;
     this.counter = counter;
   }
-
-  // Mappings
 
   @GetMapping("/reasons")
   Collection<PunishmentReason> allReasons() {
@@ -31,7 +28,7 @@ public final class PunishmentReasonController {
 
   @PostMapping("/reasons")
   PunishmentReason newReason(@RequestBody PunishmentReason newEntry) {
-    long nextId = counter.resolveIncrement(REASON_NAME);
+    var nextId = counter.resolveIncrement(REASON_NAME);
     newEntry.setReasonId(nextId);
     return datastore.save(newEntry);
   }
@@ -44,7 +41,7 @@ public final class PunishmentReasonController {
   @PutMapping("/reasons/{id}")
   PunishmentReason replaceReason(
     @RequestBody PunishmentReason newReason,
-    @PathVariable Long id
+    @PathVariable long id
   ) {
     return queryReason(id)
       .modify(UpdateOperators.set(newReason))
@@ -56,14 +53,14 @@ public final class PunishmentReasonController {
     queryReason(id).delete();
   }
 
-  // Queries
-
   private Query<PunishmentReason> queryReasons() {
     return datastore.find(PunishmentReason.class);
   }
 
+  private static final String FIELD_REASON_ID = "id";
+
   private Query<PunishmentReason> queryReason(long id) {
     return queryReasons()
-      .filter(Filters.eq(PunishmentReason.FIELD_REASON_ID, id));
+      .filter(Filters.eq(FIELD_REASON_ID, id));
   }
 }

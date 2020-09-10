@@ -5,9 +5,6 @@ import dev.morphia.annotations.Id;
 
 @Entity("counter")
 public final class CounterEntity {
-  public static final String FIELD_ID = "_id";
-  public static final String FIELD_SEQUENCE = "sequence";
-
   // This framework requires public constructors
   public CounterEntity() {}
 

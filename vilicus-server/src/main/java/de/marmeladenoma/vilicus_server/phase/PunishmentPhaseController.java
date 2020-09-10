@@ -13,34 +13,28 @@ import java.util.Optional;
 
 @RestController
 public final class PunishmentPhaseController {
-
   private final Datastore datastore;
 
-  public PunishmentPhaseController(Datastore datastore) {
+  private PunishmentPhaseController(Datastore datastore) {
     this.datastore = datastore;
   }
 
-  // Mappings
+  private static final String FIELD_REASON = "reason";
+  private static final String FIELD_REASON_ID = "id";
 
   @GetMapping("/phases")
   Collection<PunishmentPhase> allPhases(@RequestParam Optional<Long> reasonId) {
     Query<PunishmentPhase> query = queryPhases();
-
-    if (reasonId.isEmpty())
+    if (reasonId.isEmpty()) {
       return query.iterator().toList();
+    }
 
     PunishmentReason reason = datastore.find(PunishmentReason.class)
-      .filter(Filters.eq(PunishmentReason.FIELD_REASON_ID, reasonId.get()))
+      .filter(Filters.eq(FIELD_REASON_ID, reasonId.get()))
       .first();
-
-    if (reason == null)
-      return Collections.emptyList();
-
-    query = query.filter(
-      Filters.eq(PunishmentPhase.FIELD_REASON, reason.getId())
-    );
-
-    return query.iterator().toList();
+    return reason == null ? Collections.emptyList() : query
+      .filter(Filters.eq(FIELD_REASON, reason.getId()))
+      .iterator().toList();
   }
 
   @PostMapping("/phases")
@@ -68,13 +62,13 @@ public final class PunishmentPhaseController {
     queryPhase(id).delete();
   }
 
-  // Queries
-
   private Query<PunishmentPhase> queryPhases() {
     return datastore.find(PunishmentPhase.class);
   }
 
+  private static final String FIELD_ID = "id";
+
   private Query<PunishmentPhase> queryPhase(String id) {
-    return queryPhases().filter(Filters.eq(PunishmentPhase.FIELD_ID, id));
+    return queryPhases().filter(Filters.eq(FIELD_ID, id));
   }
 }

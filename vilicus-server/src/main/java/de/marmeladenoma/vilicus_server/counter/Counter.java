@@ -8,17 +8,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public final class Counter {
-
   private final Datastore datastore;
 
-  public Counter(Datastore datastore) {
+  private Counter(Datastore datastore) {
     this.datastore = datastore;
   }
+
+  private static final String FIELD_SEQUENCE = "sequence";
 
   // Resolve an increment, like auto increment (sql)
   public long resolveIncrement(String counter) {
     CounterEntity counterEntity = queryCounter(datastore, counter)
-      .modify(UpdateOperators.inc(CounterEntity.FIELD_SEQUENCE))
+      .modify(UpdateOperators.inc(FIELD_SEQUENCE))
       .execute();
 
     return counterEntity.getSequence();
@@ -31,11 +32,13 @@ public final class Counter {
     datastore.save(new CounterEntity(counter));
   }
 
+  private static final String FIELD_ID = "_id";
+
   private static Query<CounterEntity> queryCounter(
     Datastore datastore,
     String counter
   ) {
     return datastore.find(CounterEntity.class)
-      .filter(Filters.eq(CounterEntity.FIELD_ID, counter));
+      .filter(Filters.eq(FIELD_ID, counter));
   }
 }

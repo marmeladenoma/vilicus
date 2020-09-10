@@ -13,27 +13,22 @@ public final class CacheInitialization {
     return new CacheInitialization();
   }
 
-  private static Datastore datastore;
-
   private CacheInitialization() {}
 
-  public void initialize() {
+  public Datastore initialize() {
     var config = createConfig(createConnectionString());
     var injector = Guice.createInjector(PersistenceModule.create(config));
-    loadData(injector);
-  }
-
-  public Datastore getDatastore() {
-    return datastore;
+    return loadData(injector);
   }
 
   private static final String DATABASE_NAME = "vilicus";
   private static final String COUNTER = "reason";
 
-  private void loadData(Injector injector) {
+  private Datastore loadData(Injector injector) {
     var datastoreFactory = injector.getInstance(DatastoreFactory.class);
-    datastore = datastoreFactory.createDatastore(DATABASE_NAME);
+    var datastore = datastoreFactory.createDatastore(DATABASE_NAME);
     Counter.loadCounter(datastore, COUNTER);
+    return datastore;
   }
 
   private PersistenceConfig createConfig(String connection) {

@@ -11,23 +11,26 @@ import java.util.Optional;
 
 @RestController
 public final class PunishmentEntryController {
-
   private final Datastore datastore;
 
-  public PunishmentEntryController(Datastore datastore) {
+  private PunishmentEntryController(Datastore datastore) {
     this.datastore = datastore;
   }
 
-  // Mappings
+  private static final String FIELD_USER_ID = "userId";
+  private static final String FIELD_ACTIVE_ID = "active";
 
   @GetMapping("/entries")
-  Collection<PunishmentEntry> allEntries(@RequestParam Optional<String> userId) {
+  Collection<PunishmentEntry> allEntries(
+    @RequestParam Optional<String> userId,
+    @RequestParam Optional<Boolean> active) {
     Query<PunishmentEntry> query = datastore.find(PunishmentEntry.class);
-
-    if (userId.isPresent())
-      query = query.filter(
-        Filters.eq(PunishmentEntry.FIELD_USER_ID, userId.get())
-      );
+    if (userId.isPresent()) {
+      query = query.filter(Filters.eq(FIELD_USER_ID, userId.get()));
+    }
+    if(active.isPresent()) {
+      query = query.filter(Filters.eq(FIELD_ACTIVE_ID, active.get()));
+    }
 
     return query.iterator().toList();
   }
@@ -57,13 +60,11 @@ public final class PunishmentEntryController {
     queryEntry(id).delete();
   }
 
-  // Queries
-
   private Query<PunishmentEntry> queryEntries() {
     return datastore.find(PunishmentEntry.class);
   }
 
   private Query<PunishmentEntry> queryEntry(String id) {
-    return queryEntries().filter(Filters.eq(PunishmentEntry.FIELD_ID, id));
+    return queryEntries().filter(Filters.eq(FIELD_USER_ID, id));
   }
 }
