@@ -1,6 +1,6 @@
 package de.marmeladenoma.vilicus_server.entry;
 
-import de.marmeladenoma.vilicus_server.phase.PunishmentPhase;
+import de.marmeladenoma.vilicus_server.reason.PunishmentReason;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Reference;
@@ -16,7 +16,8 @@ public final class PunishmentEntry {
   private Date creationDate;
   private String creatorId;
   @Reference
-  private PunishmentPhase phase;
+  private PunishmentReason reason;
+  private int phaseIndex;
   private boolean active;
 
   public String getId() {
@@ -39,8 +40,12 @@ public final class PunishmentEntry {
     return creatorId;
   }
 
-  public PunishmentPhase getPhase() {
-    return phase;
+  public PunishmentReason getReason() {
+    return reason;
+  }
+
+  public int getPhaseIndex() {
+    return phaseIndex;
   }
 
   public boolean isActive() {

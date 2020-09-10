@@ -1,9 +1,8 @@
 package de.marmeladenoma.vilicus_server.reason;
 
-import dev.morphia.annotations.Entity;
-import dev.morphia.annotations.Id;
-import dev.morphia.annotations.IndexOptions;
-import dev.morphia.annotations.Indexed;
+import dev.morphia.annotations.*;
+
+import java.util.List;
 
 @Entity("reasons")
 public final class PunishmentReason {
@@ -12,6 +11,7 @@ public final class PunishmentReason {
   @Indexed(options = @IndexOptions(unique = true))
   private long reasonId;
   private String name;
+  private List<PunishmentPhase> phases;
 
   public String getId() {
     return id;
@@ -27,5 +27,9 @@ public final class PunishmentReason {
 
   public void setReasonId(long reasonId) {
     this.reasonId = reasonId;
+  }
+
+  public List<PunishmentPhase> getPhases() {
+    return phases;
   }
 }

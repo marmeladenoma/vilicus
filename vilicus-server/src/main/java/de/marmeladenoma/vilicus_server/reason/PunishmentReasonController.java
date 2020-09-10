@@ -5,9 +5,12 @@ import dev.morphia.Datastore;
 import dev.morphia.query.Query;
 import dev.morphia.query.experimental.filters.Filters;
 import dev.morphia.query.experimental.updates.UpdateOperators;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 public final class PunishmentReasonController {
@@ -33,31 +36,84 @@ public final class PunishmentReasonController {
     return datastore.save(newEntry);
   }
 
-  @GetMapping("/reasons/{id}")
-  PunishmentReason findReason(@PathVariable long id) {
-    return queryReason(id).first();
+  @GetMapping("/reasons/{reasonId}")
+  ResponseEntity<PunishmentReason> findReason(@PathVariable long reasonId) {
+    var reason = queryReason(reasonId).first();
+    if (reason == null)
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(reason, HttpStatus.OK);
   }
 
-  @PutMapping("/reasons/{id}")
-  PunishmentReason replaceReason(
-    @RequestBody PunishmentReason newReason,
-    @PathVariable long id
+  @DeleteMapping("/reasons/{reasonId}")
+  ResponseEntity<Void> deleteReason(@PathVariable long reasonId) {
+    var res = queryReason(reasonId).delete();
+    if (res.wasAcknowledged())
+      return new ResponseEntity<>(HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+  }
+
+  @GetMapping("/reasons/{reasonId}/phases")
+  ResponseEntity<List<PunishmentPhase>> findPhasesInReason(
+    @PathVariable long reasonId
   ) {
-    return queryReason(id)
-      .modify(UpdateOperators.set(newReason))
-      .execute();
+    var reason = queryReason(reasonId).first();
+    if (reason == null)
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(reason.getPhases(), HttpStatus.OK);
   }
 
-  @DeleteMapping("/reasons/{id}")
-  void deleteReason(@PathVariable long id) {
-    queryReason(id).delete();
+  @PostMapping("/reasons/{reasonId}/phases")
+  ResponseEntity<PunishmentPhase> newPhaseInReason(
+    @RequestBody PunishmentPhase phase,
+    @PathVariable long reasonId
+  ) {
+    var queryReason = queryReason(reasonId);
+    var reason = queryReason.first();
+    if (reason == null)
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    reason.getPhases().add(phase);
+    queryReason.update(UpdateOperators.set(FIELD_PHASES, reason)).execute();
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @GetMapping("/reasons/{reasonId}/phases/{phaseIndex}")
+  ResponseEntity<PunishmentPhase> findPhaseInReason(
+    @PathVariable long reasonId,
+    @PathVariable int phaseIndex
+  ) {
+    var reason = queryReason(reasonId).first();
+    if (reason == null)
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    var phase = reason.getPhases().get(phaseIndex);
+    if (phase == null)
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(phase, HttpStatus.OK);
+  }
+
+  private static final String FIELD_PHASES = "phases";
+
+  @DeleteMapping("/reasons/{reasonId}/phases/{phaseIndex}")
+  ResponseEntity<Void> deletePhaseInReason(
+    @PathVariable long reasonId,
+    @PathVariable int phaseIndex
+  ) {
+    var queryReason = queryReason(reasonId);
+    var reason = queryReason.first();
+    if (reason == null)
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    var phases = reason.getPhases();
+    if (phaseIndex > reason.getPhases().size() - 1)
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    phases.remove(phaseIndex);
+    queryReason.update(UpdateOperators.set(FIELD_PHASES, phases)).execute();
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   private Query<PunishmentReason> queryReasons() {
     return datastore.find(PunishmentReason.class);
   }
 
-  private static final String FIELD_REASON_ID = "id";
+  private static final String FIELD_REASON_ID = "reasonId";
 
   private Query<PunishmentReason> queryReason(long id) {
     return queryReasons()
