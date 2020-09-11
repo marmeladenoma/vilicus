@@ -39,17 +39,17 @@ public final class PunishmentReasonController {
   @GetMapping("/reasons/{reasonId}")
   ResponseEntity<PunishmentReason> findReason(@PathVariable long reasonId) {
     var reason = queryReason(reasonId).first();
-    if (reason == null)
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    return new ResponseEntity<>(reason, HttpStatus.OK);
+    return reason == null
+      ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
+      : new ResponseEntity<>(reason, HttpStatus.OK);
   }
 
   @DeleteMapping("/reasons/{reasonId}")
   ResponseEntity<Void> deleteReason(@PathVariable long reasonId) {
-    var res = queryReason(reasonId).delete();
-    if (res.wasAcknowledged())
-      return new ResponseEntity<>(HttpStatus.OK);
-    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    var reason = queryReason(reasonId).delete();
+    return reason.wasAcknowledged()
+      ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+      : new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
   @GetMapping("/reasons/{reasonId}/phases")
@@ -57,10 +57,12 @@ public final class PunishmentReasonController {
     @PathVariable long reasonId
   ) {
     var reason = queryReason(reasonId).first();
-    if (reason == null)
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    return new ResponseEntity<>(reason.getPhases(), HttpStatus.OK);
+    return reason == null
+      ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
+      : new ResponseEntity<>(reason.getPhases(), HttpStatus.OK);
   }
+
+  private static final String FIELD_PHASES = "phases";
 
   @PostMapping("/reasons/{reasonId}/phases")
   ResponseEntity<PunishmentPhase> newPhaseInReason(
@@ -69,8 +71,9 @@ public final class PunishmentReasonController {
   ) {
     var queryReason = queryReason(reasonId);
     var reason = queryReason.first();
-    if (reason == null)
+    if (reason == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     reason.getPhases().add(phase);
     queryReason.update(UpdateOperators.set(FIELD_PHASES, reason)).execute();
     return new ResponseEntity<>(HttpStatus.OK);
@@ -82,15 +85,15 @@ public final class PunishmentReasonController {
     @PathVariable int phaseIndex
   ) {
     var reason = queryReason(reasonId).first();
-    if (reason == null)
+    if (reason == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     var phase = reason.getPhases().get(phaseIndex);
-    if (phase == null)
+    if (phase == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     return new ResponseEntity<>(phase, HttpStatus.OK);
   }
-
-  private static final String FIELD_PHASES = "phases";
 
   @DeleteMapping("/reasons/{reasonId}/phases/{phaseIndex}")
   ResponseEntity<Void> deletePhaseInReason(
@@ -99,11 +102,13 @@ public final class PunishmentReasonController {
   ) {
     var queryReason = queryReason(reasonId);
     var reason = queryReason.first();
-    if (reason == null)
+    if (reason == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     var phases = reason.getPhases();
-    if (phaseIndex > reason.getPhases().size() - 1)
+    if (phaseIndex > reason.getPhases().size() - 1) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     phases.remove(phaseIndex);
     queryReason.update(UpdateOperators.set(FIELD_PHASES, phases)).execute();
     return new ResponseEntity<>(HttpStatus.OK);

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+// Can't use final because @Configuration annotation
 public class MorphiaAutoConfiguration {
   private final Datastore datastore;
 
