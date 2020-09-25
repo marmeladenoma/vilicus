@@ -1,6 +1,5 @@
 package de.marmeladenoma.vilicus_server.entry;
 
-import com.mongodb.client.result.DeleteResult;
 import dev.morphia.Datastore;
 import dev.morphia.query.Query;
 import dev.morphia.query.experimental.filters.Filters;
