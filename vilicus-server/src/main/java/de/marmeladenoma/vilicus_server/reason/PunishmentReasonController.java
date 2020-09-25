@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -74,8 +75,30 @@ public final class PunishmentReasonController {
     if (reason == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    reason.getPhases().add(phase);
-    queryReason.update(UpdateOperators.set(FIELD_PHASES, reason)).execute();
+    var phases = getPhasesOrEmptyList(queryReason.first());
+    phases.add(phase);
+    queryReason.update(UpdateOperators.set(FIELD_PHASES, phases))
+      .execute();
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @PostMapping("/reasons/{reasonId}/phases/{phaseIndex}")
+  ResponseEntity<PunishmentPhase> insertPhaseInReason(
+    @RequestBody PunishmentPhase phase,
+    @PathVariable long reasonId,
+    @PathVariable int phaseIndex
+  ) {
+    var queryReason = queryReason(reasonId);
+    var reason = queryReason(reasonId).first();
+    if (reason == null) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    var phases = getPhasesOrEmptyList(reason);
+    if (phaseIndex < 0 || phaseIndex > phases.size())
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    phases.add(phaseIndex, phase);
+    queryReason.update(UpdateOperators.set(FIELD_PHASES, phases))
+      .execute();
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
@@ -89,10 +112,9 @@ public final class PunishmentReasonController {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     var phase = reason.getPhases().get(phaseIndex);
-    if (phase == null) {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-    return new ResponseEntity<>(phase, HttpStatus.OK);
+    return phase == null
+      ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
+      : new ResponseEntity<>(phase, HttpStatus.OK);
   }
 
   @DeleteMapping("/reasons/{reasonId}/phases/{phaseIndex}")
@@ -106,7 +128,7 @@ public final class PunishmentReasonController {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     var phases = reason.getPhases();
-    if (phaseIndex > reason.getPhases().size() - 1) {
+    if (phaseIndex < 0 || phaseIndex >= phases.size()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     phases.remove(phaseIndex);
@@ -123,5 +145,12 @@ public final class PunishmentReasonController {
   private Query<PunishmentReason> queryReason(long id) {
     return queryReasons()
       .filter(Filters.eq(FIELD_REASON_ID, id));
+  }
+
+  private List<PunishmentPhase> getPhasesOrEmptyList(PunishmentReason reason) {
+    var phases = reason.getPhases();
+    if (phases == null)
+      phases = new ArrayList<>();
+    return phases;
   }
 }
